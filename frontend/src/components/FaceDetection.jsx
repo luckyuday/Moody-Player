@@ -79,14 +79,23 @@ function FaceDetectionCamera({ setSongs }) {
     }
   }, [modelsLoaded, stream]);
 
-  useEffect(() => {
-    if (modelsLoaded && !stream) {
-      console.log(
-        "Models loaded and no stream active. Starting camera automatically..."
-      );
-      startCamera();
+  const stopCamera = useCallback(() => {
+    console.log("Stopping camera...");
+    if (stream) {
+      stream.getTracks().forEach((track) => {
+        track.stop();
+      });
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
+      setStream(null);
+      setCurrentMood(null);
     }
-  }, [modelsLoaded, stream, startCamera]);
+  }, [stream]);
+
+  // --- THE FIX IS HERE: The problematic useEffect is removed ---
+  // We no longer have the hook that automatically starts the camera
+  // after the models are loaded.
 
   const handleDetectMoodClick = useCallback(async () => {
     const video = videoRef.current;
@@ -125,14 +134,12 @@ function FaceDetectionCamera({ setSongs }) {
 
       console.log(`Prominent Mood Detected: ${prominentExpressionLabel}`);
 
-      setTimeout(() => {
-        setCurrentMood(null);
-      }, 5000);
+      stopCamera();
     } else {
       setCurrentMood("No face detected for mood analysis.");
       setTimeout(() => setCurrentMood(null), 3000);
     }
-  }, [modelsLoaded, stream]);
+  }, [modelsLoaded, stream, stopCamera]);
 
   return (
     <div className="face-detection-container">
@@ -146,6 +153,11 @@ function FaceDetectionCamera({ setSongs }) {
           <p className="status-message">Loading models, please wait...</p>
         )}
         {cameraError && <p className="error-message">Error: {cameraError}</p>}
+        {modelsLoaded && !stream && (
+          <button onClick={startCamera} className="detect-mood-button">
+            Start Camera
+          </button>
+        )}
         {modelsLoaded && stream && (
           <button
             onClick={handleDetectMoodClick}
@@ -156,7 +168,7 @@ function FaceDetectionCamera({ setSongs }) {
         )}
 
         {currentMood && (
-          <div className="mood-display">Detected Mood: {currentMood}</div>
+          <div className="mood-display">Detected Mood:{currentMood}</div>
         )}
       </div>
     </div>
