@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "nanoid": "^5.1.5",
+    "remixicon": "^4.6.0"
+  }
+}

@@ -1,0 +1,32 @@
+.face-detection-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.video-wrapper {
+  width: 50%;
+}
+.video-wrapper > video {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: 2rem;
+}
+.mood-heading {
+  font-size: 4rem;
+}
+.detect-mood-button {
+  border-radius: 20rem;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+}
+.mood-heading-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: flex-start;
+}

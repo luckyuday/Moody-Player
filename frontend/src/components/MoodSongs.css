@@ -1,0 +1,31 @@
+.mood-songs-container {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+.mood-songs-container > h2 {
+  align-self: flex-start;
+  font-size: 4rem;
+}
+.song-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease-out;
+  padding: 1rem 2rem;
+  position: relative;
+  border-radius: 10rem;
+}
+
+.song-container:hover {
+  background-color: #131313;
+  cursor: pointer;
+}
+
+.play-pause-container {
+  position: relative;
+}
